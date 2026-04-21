@@ -12,11 +12,13 @@
 $fn = 64;   // Pürüzsüz yüzey için yüksek çözünürlük
 
 // Şaft
-shaft_d          = 6;   // Motor şaft çapı + 0.2mm baskı toleransı
+shaft_d          = 5.5;   // Motor şaft çapı + 0.2mm baskı toleransı
 
 // Vida delikleri
 bolt_d_pos       = 4;     // +X tarafı vida deliği çapı
 bolt_d_neg       = 4;     // -X tarafı vida deliği çapı
+bolt_d_pos_y     = 4;     // +Y tarafı vida deliği çapı (0 = iptal)
+bolt_d_neg_y     = 4;     // -Y tarafı vida deliği çapı (0 = iptal)
 nut_across_flat  = 5.8;   // M4 somun flat-to-flat + 0.3mm tolerans
 nut_depth        = 2.5;   // M4 somun yüksekliği
 
@@ -82,6 +84,18 @@ module createShaftHolder()
       translate([-(s1_outer_d / 2 + 0.1), 0, bolt_z])
          rotate([0, 90, 0])
             cylinder(d = bolt_d_neg, h = s1_outer_d / 2 + 0.1);
+
+      // --- Vida deliği (+Y tarafı, 0 ise iptal) ---
+      if (bolt_d_pos_y > 0)
+         translate([0, s1_outer_d / 2 + 0.1, bolt_z])
+            rotate([90, 0, 0])
+               cylinder(d = bolt_d_pos_y, h = s1_outer_d / 2 + 0.1);
+
+      // --- Vida deliği (-Y tarafı, 0 ise iptal) ---
+      if (bolt_d_neg_y > 0)
+         translate([0, -(s1_outer_d / 2 + 0.1), bolt_z])
+            rotate([-90, 0, 0])
+               cylinder(d = bolt_d_neg_y, h = s1_outer_d / 2 + 0.1);
    }
 }
 
